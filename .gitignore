@@ -1,0 +1,32 @@
+﻿# Variables de entorno y secretos
+.env
+*.env
+!*.env.example
+
+# Java / Spring Boot
+target/
+*.class
+*.jar
+*.war
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+
+# Docker
+docker-data/
+*.pid
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
