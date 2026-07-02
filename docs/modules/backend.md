@@ -118,9 +118,9 @@ package com.kontora.pos;
 
 Este paquete raíz es importante porque Spring Boot escanea automáticamente los componentes ubicados dentro de `com.kontora.pos` y sus subpaquetes. Por esa razón, los futuros módulos del backend deben quedar dentro de este paquete base.
 
-## Paquetes futuros recomendados
+## Paquetes base recomendados
 
-Aunque en este paso solo se generó la estructura inicial del proyecto, los paquetes funcionales del backend deberán organizarse progresivamente así:
+Desde el inicio de la Fase 2 se definió que los paquetes funcionales del backend deben organizarse progresivamente así:
 
 ```text
 com.kontora.pos.config
@@ -331,9 +331,152 @@ El Paso 1 de la Fase 2 quedó completado con los siguientes resultados:
 - La eliminación de `backend/.gitkeep` es válida porque la carpeta `backend` ya contiene un proyecto real.
 - La documentación técnica inicial del backend quedó registrada en este archivo.
 
-## Archivos relacionados con este paso
+## Paso 2 - Estructura base de paquetes del backend
 
-Los archivos principales creados o modificados en este paso fueron:
+### Objetivo
+
+Crear la estructura inicial de paquetes del backend para organizar el código por responsabilidades técnicas y módulos funcionales del sistema Kontora POS.
+
+Este paso no incluye lógica de negocio, entidades, repositorios, servicios ni controladores. Su propósito es dejar preparada la base arquitectónica para que los futuros módulos se desarrollen de forma ordenada dentro del paquete raíz `com.kontora.pos`.
+
+### Ubicación base
+
+Los paquetes fueron creados dentro de:
+
+```text
+backend/src/main/java/com/kontora/pos
+```
+
+La ruta corresponde al paquete raíz:
+
+```java
+package com.kontora.pos;
+```
+
+### Paquetes creados
+
+Los paquetes base creados dentro de `com.kontora.pos` fueron:
+
+```text
+com.kontora.pos.config
+com.kontora.pos.common
+com.kontora.pos.common.exception
+com.kontora.pos.common.response
+com.kontora.pos.security
+com.kontora.pos.usuario
+com.kontora.pos.producto
+com.kontora.pos.inventario
+com.kontora.pos.venta
+com.kontora.pos.caja
+com.kontora.pos.transferencia
+com.kontora.pos.gasto
+com.kontora.pos.deposito
+com.kontora.pos.reporte
+```
+
+### Propósito de cada paquete
+
+| Paquete | Propósito |
+|---|---|
+| `com.kontora.pos.config` | Contendrá configuraciones generales del backend, beans compartidos y ajustes técnicos transversales. |
+| `com.kontora.pos.common` | Contendrá clases reutilizables por varios módulos del sistema. |
+| `com.kontora.pos.common.exception` | Contendrá excepciones personalizadas y clases para manejo centralizado de errores. |
+| `com.kontora.pos.common.response` | Contendrá estructuras comunes de respuesta para mantener consistencia en la API. |
+| `com.kontora.pos.security` | Contendrá la configuración futura de seguridad, autenticación, autorización, JWT y filtros. |
+| `com.kontora.pos.usuario` | Contendrá la gestión de usuarios, roles, permisos y autenticación funcional. |
+| `com.kontora.pos.producto` | Contendrá la gestión de productos, categorías, referencias, tamaños, precios y promociones. |
+| `com.kontora.pos.inventario` | Contendrá el control de inventario general, inventario diario, entradas, salidas y ajustes. |
+| `com.kontora.pos.venta` | Contendrá el registro de ventas, detalle de ventas, promociones aplicadas y anulaciones permitidas. |
+| `com.kontora.pos.caja` | Contendrá la apertura, control, cierre de caja diaria, base, efectivo contado y bloqueo de operaciones posteriores al cierre. |
+| `com.kontora.pos.transferencia` | Contendrá el registro, aceptación, rechazo y consulta de transferencias. |
+| `com.kontora.pos.gasto` | Contendrá el registro, edición, anulación y consulta de gastos de la jornada. |
+| `com.kontora.pos.deposito` | Contendrá el cálculo y registro de depósitos de cierre. |
+| `com.kontora.pos.reporte` | Contendrá consultas, reportes administrativos y resúmenes gerenciales. |
+
+### Archivos `package-info.java`
+
+Como Git no versiona carpetas vacías, se creó un archivo `package-info.java` dentro de cada paquete.
+
+Ejemplo para el paquete de ventas:
+
+```java
+/**
+ * Modulo de ventas del sistema Kontora POS.
+ */
+package com.kontora.pos.venta;
+```
+
+Este tipo de archivo cumple dos funciones:
+
+1. Permite que Git registre la existencia del paquete aunque todavía no tenga clases funcionales.
+2. Documenta de forma mínima el propósito del paquete desde el código fuente.
+
+### Estructura esperada después del Paso 2
+
+Después de crear los paquetes base, la estructura dentro de `backend/src/main/java/com/kontora/pos` debe verse de forma similar a:
+
+```text
+com/kontora/pos/
+├── KontoraPosBackendApplication.java
+├── caja/
+│   └── package-info.java
+├── common/
+│   ├── package-info.java
+│   ├── exception/
+│   │   └── package-info.java
+│   └── response/
+│       └── package-info.java
+├── config/
+│   └── package-info.java
+├── deposito/
+│   └── package-info.java
+├── gasto/
+│   └── package-info.java
+├── inventario/
+│   └── package-info.java
+├── producto/
+│   └── package-info.java
+├── reporte/
+│   └── package-info.java
+├── security/
+│   └── package-info.java
+├── transferencia/
+│   └── package-info.java
+├── usuario/
+│   └── package-info.java
+└── venta/
+    └── package-info.java
+```
+
+### Validación realizada en el Paso 2
+
+Después de crear los paquetes base, se ejecutó:
+
+```powershell
+cd C:\Users\corre\Desktop\kontora-pos\backend
+mvn clean test
+```
+
+El resultado obtenido fue exitoso:
+
+```text
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+```
+
+### Estado del Paso 2
+
+El Paso 2 de la Fase 2 quedó validado con los siguientes resultados:
+
+- La estructura base de paquetes del backend fue creada dentro de `com.kontora.pos`.
+- Cada paquete fue preparado con su respectivo archivo `package-info.java`.
+- No se agregó lógica de negocio todavía.
+- La compilación y las pruebas Maven finalizaron correctamente.
+- La arquitectura interna queda lista para iniciar posteriormente la creación de clases comunes, configuración base y módulos funcionales.
+
+## Archivos relacionados con los pasos 1 y 2
+
+Los archivos principales creados o modificados durante estos pasos fueron:
 
 ```text
 backend/.gitattributes
@@ -341,33 +484,52 @@ backend/.gitignore
 backend/nbactions.xml
 backend/pom.xml
 backend/src/main/java/com/kontora/pos/KontoraPosBackendApplication.java
+backend/src/main/java/com/kontora/pos/caja/package-info.java
+backend/src/main/java/com/kontora/pos/common/package-info.java
+backend/src/main/java/com/kontora/pos/common/exception/package-info.java
+backend/src/main/java/com/kontora/pos/common/response/package-info.java
+backend/src/main/java/com/kontora/pos/config/package-info.java
+backend/src/main/java/com/kontora/pos/deposito/package-info.java
+backend/src/main/java/com/kontora/pos/gasto/package-info.java
+backend/src/main/java/com/kontora/pos/inventario/package-info.java
+backend/src/main/java/com/kontora/pos/producto/package-info.java
+backend/src/main/java/com/kontora/pos/reporte/package-info.java
+backend/src/main/java/com/kontora/pos/security/package-info.java
+backend/src/main/java/com/kontora/pos/transferencia/package-info.java
+backend/src/main/java/com/kontora/pos/usuario/package-info.java
+backend/src/main/java/com/kontora/pos/venta/package-info.java
 backend/src/main/resources/application.properties
 backend/src/test/java/com/kontora/pos/KontoraPosBackendApplicationTests.java
 docs/modules/backend.md
 ```
 
-## Estado esperado en Git
+## Estado esperado en Git para cerrar el Paso 2
 
-Antes de cerrar el paso con commit, el estado esperado debe incluir los archivos nuevos del backend y este documento:
+Antes de cerrar el Paso 2 con commit, el estado esperado debe incluir los archivos `package-info.java` de los paquetes nuevos y la actualización de este documento:
 
 ```text
 Changes to be committed:
-    new file:   backend/.gitattributes
-    new file:   backend/.gitignore
-    deleted:    backend/.gitkeep
-    new file:   backend/nbactions.xml
-    new file:   backend/pom.xml
-    new file:   backend/src/main/java/com/kontora/pos/KontoraPosBackendApplication.java
-    new file:   backend/src/main/resources/application.properties
-    new file:   backend/src/test/java/com/kontora/pos/KontoraPosBackendApplicationTests.java
-    new file:   docs/modules/backend.md
+    new file:   backend/src/main/java/com/kontora/pos/caja/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/common/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/common/exception/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/common/response/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/config/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/deposito/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/gasto/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/inventario/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/producto/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/reporte/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/security/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/transferencia/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/usuario/package-info.java
+    new file:   backend/src/main/java/com/kontora/pos/venta/package-info.java
+    modified:   docs/modules/backend.md
 ```
 
 ## Commit sugerido
 
-El commit sugerido para cerrar este paso es:
+El commit sugerido para cerrar el Paso 2 es:
 
 ```powershell
-git commit -m "chore: inicializar backend Spring Boot"
+git commit -m "chore: crear estructura base de paquetes backend"
 ```
-
