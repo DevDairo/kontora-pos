@@ -1,22 +1,22 @@
-# Backend - Inicialización Spring Boot
+# Backend - Inicializacion Spring Boot y Paquetes Base
 
 ## Objetivo
 
-Documentar la inicialización técnica del backend de Kontora POS durante la Fase 2 del proyecto, incluyendo la estructura generada, configuración base, incidencias encontradas, causas, soluciones aplicadas, recomendaciones previas a la compilación y comandos usados para validar el funcionamiento inicial.
+Documentar los pasos 1 y 2 de la Fase 2: inicializar el backend Spring Boot y crear la estructura base de paquetes para el desarrollo modular de Kontora POS.
 
-Este documento sirve como guía interna para evitar errores repetidos durante la configuración del backend y como evidencia técnica del proceso de construcción de la infraestructura base del proyecto.
+Este documento se limita al backend. La organizacion de scripts, variables de entorno, Cloudflare y Pull Requests se documenta en los archivos de arquitectura correspondientes.
 
-## Contexto del paso
+## Paso 1 - Inicializacion del backend Spring Boot
 
-El backend fue creado dentro del repositorio principal de Kontora POS, específicamente en la carpeta:
+### Resultado esperado
+
+El backend debe quedar creado directamente en:
 
 ```text
-kontora-pos/backend
+backend/
 ```
 
-Antes de generar el proyecto, ya existía una carpeta `backend` vacía versionada con un archivo `.gitkeep`. Como NetBeans no permitía crear el proyecto sobre una carpeta existente, se verificó primero que la carpeta estuviera vacía y luego se eliminó para permitir que el IDE generara correctamente el proyecto Spring Boot en la ubicación esperada.
-
-La estructura correcta esperada es:
+La estructura correcta es:
 
 ```text
 kontora-pos/
@@ -26,7 +26,7 @@ kontora-pos/
     └── src/
 ```
 
-La estructura incorrecta que se debía evitar era:
+Se debe evitar una estructura anidada como:
 
 ```text
 kontora-pos/
@@ -36,29 +36,27 @@ kontora-pos/
         └── src/
 ```
 
-## Configuración base usada
+### Configuracion base
 
 | Elemento | Valor definido |
 |---|---|
 | Lenguaje | Java |
-| Versión de Java | 21 |
+| Version de Java | 21 |
 | Framework | Spring Boot |
-| Versión de Spring Boot | 3.5.15 |
+| Version de Spring Boot | 3.5.15 |
 | Gestor de dependencias | Maven |
 | Packaging | Jar |
 | Group | `com.kontora` |
 | Artifact | `pos` |
-| Nombre lógico de la aplicación | `kontora-pos-backend` |
+| Nombre de la aplicacion | `kontora-pos-backend` |
 | Carpeta del proyecto | `backend` |
-| Package principal | `com.kontora.pos` |
-| Base de datos | PostgreSQL local mediante Docker |
-| Motor de migraciones | Flyway |
-| IDE usado para generación | NetBeans |
-| Validación por consola | PowerShell en Windows |
+| Paquete raiz | `com.kontora.pos` |
+| Base de datos local | PostgreSQL mediante Docker |
+| Migraciones | Flyway |
 
-## Dependencias base seleccionadas
+### Dependencias base
 
-Durante la creación del proyecto Spring Boot se seleccionaron las siguientes dependencias:
+El proyecto Spring Boot incluye:
 
 ```text
 Spring Web
@@ -70,120 +68,33 @@ Spring Boot Actuator
 Lombok
 ```
 
-Estas dependencias permiten iniciar la base técnica del backend con soporte para API REST, persistencia con JPA, conexión a PostgreSQL, migraciones de base de datos con Flyway, validación de datos, endpoints de salud y reducción de código repetitivo mediante Lombok.
+Estas dependencias permiten iniciar una API REST con persistencia JPA, conexion a PostgreSQL, validaciones, migraciones futuras, endpoints de salud mediante Actuator y reduccion de codigo repetitivo con Lombok.
 
-## Estructura inicial generada
+### Clase principal
 
-La estructura inicial del backend quedó organizada de la siguiente manera:
-
-```text
-backend/
-├── .gitattributes
-├── .gitignore
-├── nbactions.xml
-├── pom.xml
-└── src/
-    ├── main/
-    │   ├── java/
-    │   │   └── com/
-    │   │       └── kontora/
-    │   │           └── pos/
-    │   │               └── KontoraPosBackendApplication.java
-    │   └── resources/
-    │       ├── application.properties
-    │       ├── db/
-    │       ├── static/
-    │       └── templates/
-    └── test/
-        └── java/
-            └── com/
-                └── kontora/
-                    └── pos/
-                        └── KontoraPosBackendApplicationTests.java
-```
-
-## Clase principal generada
-
-La clase principal del backend quedó ubicada en:
+La clase principal queda ubicada en:
 
 ```text
 backend/src/main/java/com/kontora/pos/KontoraPosBackendApplication.java
 ```
 
-Su paquete principal es:
+Su paquete es:
 
 ```java
 package com.kontora.pos;
 ```
 
-Este paquete raíz es importante porque Spring Boot escanea automáticamente los componentes ubicados dentro de `com.kontora.pos` y sus subpaquetes. Por esa razón, los futuros módulos del backend deben quedar dentro de este paquete base.
+Spring Boot escanea automaticamente las clases ubicadas dentro de `com.kontora.pos` y sus subpaquetes. Por eso los modulos futuros deben mantenerse dentro de este paquete raiz.
 
-## Paquetes base recomendados
+### Configuracion inicial
 
-Desde el inicio de la Fase 2 se definió que los paquetes funcionales del backend deben organizarse progresivamente así:
-
-```text
-com.kontora.pos.config
-com.kontora.pos.common
-com.kontora.pos.common.exception
-com.kontora.pos.common.response
-com.kontora.pos.security
-com.kontora.pos.usuario
-com.kontora.pos.producto
-com.kontora.pos.inventario
-com.kontora.pos.venta
-com.kontora.pos.caja
-com.kontora.pos.transferencia
-com.kontora.pos.gasto
-com.kontora.pos.deposito
-com.kontora.pos.reporte
-```
-
-Esta organización permitirá separar responsabilidades por dominio funcional y mantener el backend preparado para crecer de forma ordenada.
-
-## Incidencias encontradas y soluciones aplicadas
-
-| Incidencia | Causa | Solución aplicada |
-|---|---|---|
-| NetBeans no permitía crear el proyecto dentro de `backend`. | La carpeta `backend` ya existía porque contenía un archivo `.gitkeep` usado para versionar la carpeta vacía. | Se verificó que la carpeta estuviera vacía, se eliminó y luego se generó el proyecto Spring Boot usando `backend` como carpeta final. |
-| Existía riesgo de crear el proyecto anidado como `backend/kontora-pos-backend`. | Si se usaba `kontora-pos-backend` como nombre de carpeta desde el IDE, NetBeans podía crear una subcarpeta dentro de `backend`. | Se definió `backend` como nombre de carpeta del proyecto y `kontora-pos-backend` como nombre lógico de la aplicación. |
-| VS Code mostraba el aviso `non-project file, only syntax errors are reported`. | VS Code todavía no reconocía el archivo Java como parte de un proyecto Maven válido. | Se priorizó la validación con Maven y NetBeans. Después de corregir el `pom.xml`, el proyecto pudo ser reconocido correctamente. |
-| El comando `.\mvnw.cmd clean test` falló en PowerShell. | El proyecto generado no incluyó Maven Wrapper, por lo tanto no existía el archivo `mvnw.cmd`. | Se usó Maven instalado en el sistema con el comando `mvn clean test`. |
-| Maven no encontraba `spring-boot-starter-parent:3.5.16.RELEASE`. | La versión `3.5.16.RELEASE` no existe en Maven Central. Además, Spring Boot 3 ya no usa el sufijo `.RELEASE`. | Se corrigió el `pom.xml` usando la versión válida `3.5.15`. |
-| NetBeans no mostraba correctamente la carpeta `src`. | El proyecto Maven estaba roto por la versión incorrecta del parent de Spring Boot. | Tras corregir la versión de Spring Boot en el `pom.xml`, NetBeans volvió a mostrar correctamente la estructura del proyecto. |
-| `mvn clean test` falló con `Failed to determine a suitable driver class`. | Spring Boot detectó las dependencias de JPA, Flyway y PostgreSQL, pero no tenía configurada la conexión `spring.datasource`. | Se configuró `application.properties` con URL, usuario, contraseña y driver de PostgreSQL. |
-| Durante las pruebas apareció una advertencia de `byte-buddy-agent`. | Java mostró una advertencia por carga dinámica de agentes usada internamente por herramientas de prueba. | No requirió corrección porque las pruebas terminaron correctamente con `BUILD SUCCESS`. Se documentó como advertencia no bloqueante. |
-
-## Corrección aplicada en `pom.xml`
-
-El proyecto fue generado inicialmente con una versión incorrecta de Spring Boot:
-
-```xml
-<version>3.5.16.RELEASE</version>
-```
-
-Esa versión no existe en Maven Central. La versión corregida fue:
-
-```xml
-<parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.15</version>
-    <relativePath/>
-</parent>
-```
-
-Esta corrección permitió que Maven descargara correctamente las dependencias del proyecto.
-
-## Configuración aplicada en `application.properties`
-
-El archivo de configuración principal del backend quedó ubicado en:
+El archivo principal de configuracion es:
 
 ```text
 backend/src/main/resources/application.properties
 ```
 
-La configuración aplicada fue:
+La configuracion inicial relevante es:
 
 ```properties
 spring.application.name=kontora-pos-backend
@@ -202,334 +113,166 @@ spring.flyway.locations=classpath:db/migration
 management.endpoints.web.exposure.include=health
 ```
 
-## Explicación de la configuración aplicada
+Puntos importantes:
 
-| Propiedad | Propósito |
-|---|---|
-| `spring.application.name` | Define el nombre lógico de la aplicación backend. |
-| `spring.datasource.url` | Define la URL de conexión a PostgreSQL. Incluye un valor por defecto para desarrollo local. |
-| `spring.datasource.username` | Define el usuario de conexión a la base de datos. |
-| `spring.datasource.password` | Define la contraseña de conexión a la base de datos. |
-| `spring.datasource.driver-class-name` | Indica explícitamente el driver JDBC de PostgreSQL. |
-| `spring.jpa.hibernate.ddl-auto=validate` | Evita que Hibernate cree o modifique tablas automáticamente. Solo valida que el modelo coincida con la base de datos. |
-| `spring.jpa.open-in-view=false` | Desactiva una práctica que puede ocultar problemas de consultas fuera de la capa transaccional. |
-| `spring.flyway.enabled=true` | Activa Flyway para manejar migraciones de base de datos. |
-| `spring.flyway.locations` | Define la ubicación de los scripts de migración dentro del classpath. |
-| `management.endpoints.web.exposure.include=health` | Expone el endpoint de salud para verificar el estado básico de la aplicación. |
+- `ddl-auto=validate` evita que Hibernate cree o modifique tablas automaticamente.
+- Flyway queda habilitado, pero solo ejecutara scripts ubicados en `backend/src/main/resources/db/migration`.
+- El endpoint de salud disponible por Actuator se valida por la ruta que exponga Spring Boot para `health`.
 
-## Relación con Docker y PostgreSQL local
+### Incidencias resueltas
 
-La configuración del backend fue alineada con los valores definidos en la infraestructura Docker local:
+| Incidencia | Causa | Solucion aplicada |
+|---|---|---|
+| NetBeans no permitia crear el proyecto dentro de `backend`. | La carpeta ya existia por un `.gitkeep`. | Se verifico que estuviera vacia y se genero el proyecto directamente en `backend`. |
+| Riesgo de crear `backend/kontora-pos-backend`. | El nombre del proyecto podia convertirse en subcarpeta. | Se uso `backend` como carpeta y `kontora-pos-backend` como nombre logico. |
+| Maven no encontraba `spring-boot-starter-parent:3.5.16.RELEASE`. | Esa version no existe y Spring Boot 3 no usa el sufijo `.RELEASE`. | Se corrigio a `3.5.15`. |
+| `mvn clean test` fallo por datasource sin configurar. | JPA, Flyway y PostgreSQL requieren datos de conexion. | Se configuro `application.properties` con variables y valores locales de ejemplo. |
+| No existia Maven Wrapper. | El proyecto generado no incluyo `mvnw.cmd`. | Se uso Maven instalado con `mvn clean test`. |
 
-```text
-POSTGRES_DB=kontora_pos
-POSTGRES_USER=kontora_user
-POSTGRES_PASSWORD=change_me_local_only
-POSTGRES_PORT=5432
-```
+### Validacion del paso
 
-Por esa razón, la URL local de conexión usada por defecto es:
-
-```text
-jdbc:postgresql://localhost:5432/kontora_pos
-```
-
-Esta configuración permite que el backend se conecte al contenedor PostgreSQL levantado desde la carpeta `infra`.
-
-## Recomendaciones antes de ejecutar pruebas del backend
-
-Antes de ejecutar pruebas o compilaciones del backend, se deben verificar los siguientes puntos:
-
-1. Confirmar que el archivo `pom.xml` use una versión válida de Spring Boot.
-2. Confirmar que la versión de Spring Boot no tenga el sufijo `.RELEASE`.
-3. Confirmar que Java 21 esté instalado y disponible.
-4. Confirmar que Maven esté instalado y disponible en el `PATH`, si el proyecto no tiene Maven Wrapper.
-5. Confirmar que PostgreSQL esté levantado con Docker.
-6. Confirmar que el archivo `.env` de `infra` exista y tenga las credenciales correctas.
-7. Confirmar que `application.properties` tenga configurada la conexión a PostgreSQL.
-8. Confirmar que el proyecto no haya quedado anidado dentro de otra carpeta.
-9. Confirmar que NetBeans haya recargado el proyecto después de modificar el `pom.xml`.
-10. Confirmar que las futuras migraciones Flyway se ubiquen en `src/main/resources/db/migration`.
-
-## Comandos usados para validar
-
-### Verificar contenido de la carpeta backend
-
-Desde la raíz del repositorio:
-
-```powershell
-cd C:\Users\corre\Desktop\kontora-pos
-Get-ChildItem .\backend
-```
-
-El resultado esperado debe incluir archivos como:
-
-```text
-pom.xml
-src
-nbactions.xml
-.gitignore
-.gitattributes
-```
-
-### Entrar al backend
-
-```powershell
-cd C:\Users\corre\Desktop\kontora-pos\backend
-```
-
-### Ejecutar pruebas con Maven
-
-Si el proyecto no tiene Maven Wrapper, usar:
+Comando usado desde `backend/`:
 
 ```powershell
 mvn clean test
 ```
 
-No usar este comando si no existe `mvnw.cmd`:
-
-```powershell
-.\mvnw.cmd clean test
-```
-
-### Levantar PostgreSQL local con Docker
-
-Desde la carpeta `infra`:
-
-```powershell
-cd C:\Users\corre\Desktop\kontora-pos\infra
-docker compose -f compose.local.yml --env-file .env up -d
-```
-
-### Volver al backend y ejecutar pruebas
-
-```powershell
-cd C:\Users\corre\Desktop\kontora-pos\backend
-mvn clean test
-```
-
-## Resultado final de validación
-
-Después de aplicar las correcciones, la prueba del backend terminó correctamente:
+Resultado documentado:
 
 ```text
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 
-La advertencia relacionada con `byte-buddy-agent` no bloqueó la compilación ni las pruebas.
+Con esto el Paso 1 queda completado.
 
-## Estado del Paso 1
-
-El Paso 1 de la Fase 2 quedó completado con los siguientes resultados:
-
-- El proyecto backend fue generado correctamente dentro de `kontora-pos/backend`.
-- La versión de Spring Boot fue corregida a `3.5.15`.
-- NetBeans reconoció correctamente el proyecto después de corregir el `pom.xml`.
-- El backend quedó conectado a la configuración local de PostgreSQL.
-- Maven ejecutó las pruebas iniciales con resultado exitoso.
-- La eliminación de `backend/.gitkeep` es válida porque la carpeta `backend` ya contiene un proyecto real.
-- La documentación técnica inicial del backend quedó registrada en este archivo.
-
-## Paso 2 - Estructura base de paquetes del backend
+## Paso 2 - Estructura base de paquetes
 
 ### Objetivo
 
-Crear la estructura inicial de paquetes del backend para organizar el código por responsabilidades técnicas y módulos funcionales del sistema Kontora POS.
+Crear paquetes iniciales para separar responsabilidades tecnicas y funcionales antes de desarrollar logica de negocio.
 
-Este paso no incluye lógica de negocio, entidades, repositorios, servicios ni controladores. Su propósito es dejar preparada la base arquitectónica para que los futuros módulos se desarrollen de forma ordenada dentro del paquete raíz `com.kontora.pos`.
+Este paso no agrega entidades, repositorios, servicios ni controladores. Solo prepara la arquitectura interna del backend.
 
-### Ubicación base
+### Ubicacion base
 
-Los paquetes fueron creados dentro de:
+Los paquetes se crean dentro de:
 
 ```text
 backend/src/main/java/com/kontora/pos
 ```
 
-La ruta corresponde al paquete raíz:
-
-```java
-package com.kontora.pos;
-```
-
 ### Paquetes creados
 
-Los paquetes base creados dentro de `com.kontora.pos` fueron:
-
 ```text
-com.kontora.pos.config
+com.kontora.pos.auditoria
+com.kontora.pos.caja
+com.kontora.pos.catalogos
 com.kontora.pos.common
+com.kontora.pos.common.audit
+com.kontora.pos.common.config
 com.kontora.pos.common.exception
 com.kontora.pos.common.response
-com.kontora.pos.security
-com.kontora.pos.usuario
-com.kontora.pos.producto
-com.kontora.pos.inventario
-com.kontora.pos.venta
-com.kontora.pos.caja
-com.kontora.pos.transferencia
-com.kontora.pos.gasto
+com.kontora.pos.common.security
+com.kontora.pos.config
 com.kontora.pos.deposito
+com.kontora.pos.evidencias
+com.kontora.pos.gasto
+com.kontora.pos.inventario
+com.kontora.pos.pagos
+com.kontora.pos.producto
 com.kontora.pos.reporte
+com.kontora.pos.security
+com.kontora.pos.transferencia
+com.kontora.pos.usuario
+com.kontora.pos.venta
 ```
 
-### Propósito de cada paquete
+### Proposito de los paquetes
 
-| Paquete | Propósito |
+| Paquete | Proposito |
 |---|---|
-| `com.kontora.pos.config` | Contendrá configuraciones generales del backend, beans compartidos y ajustes técnicos transversales. |
-| `com.kontora.pos.common` | Contendrá clases reutilizables por varios módulos del sistema. |
-| `com.kontora.pos.common.exception` | Contendrá excepciones personalizadas y clases para manejo centralizado de errores. |
-| `com.kontora.pos.common.response` | Contendrá estructuras comunes de respuesta para mantener consistencia en la API. |
-| `com.kontora.pos.security` | Contendrá la configuración futura de seguridad, autenticación, autorización, JWT y filtros. |
-| `com.kontora.pos.usuario` | Contendrá la gestión de usuarios, roles, permisos y autenticación funcional. |
-| `com.kontora.pos.producto` | Contendrá la gestión de productos, categorías, referencias, tamaños, precios y promociones. |
-| `com.kontora.pos.inventario` | Contendrá el control de inventario general, inventario diario, entradas, salidas y ajustes. |
-| `com.kontora.pos.venta` | Contendrá el registro de ventas, detalle de ventas, promociones aplicadas y anulaciones permitidas. |
-| `com.kontora.pos.caja` | Contendrá la apertura, control, cierre de caja diaria, base, efectivo contado y bloqueo de operaciones posteriores al cierre. |
-| `com.kontora.pos.transferencia` | Contendrá el registro, aceptación, rechazo y consulta de transferencias. |
-| `com.kontora.pos.gasto` | Contendrá el registro, edición, anulación y consulta de gastos de la jornada. |
-| `com.kontora.pos.deposito` | Contendrá el cálculo y registro de depósitos de cierre. |
-| `com.kontora.pos.reporte` | Contendrá consultas, reportes administrativos y resúmenes gerenciales. |
+| `auditoria` | Registro y consulta de operaciones sensibles. |
+| `caja` | Apertura, control y cierre de caja diaria. |
+| `catalogos` | Catalogos base reutilizables del sistema. |
+| `common` | Codigo compartido entre modulos. |
+| `common.audit` | Componentes transversales de auditoria. |
+| `common.config` | Configuraciones compartidas de soporte tecnico. |
+| `common.exception` | Excepciones y manejo centralizado de errores. |
+| `common.response` | Respuestas comunes de la API. |
+| `common.security` | Utilidades transversales de seguridad. |
+| `config` | Configuracion general propia de la aplicacion. |
+| `deposito` | Calculo y registro de depositos de cierre. |
+| `evidencias` | Metadatos y referencias de soportes o comprobantes. |
+| `gasto` | Registro, edicion, anulacion y consulta de gastos. |
+| `inventario` | Inventario general, diario, entradas, salidas y ajustes. |
+| `pagos` | Pagos en efectivo, transferencia o formas mixtas. |
+| `producto` | Productos, referencias, tamanos, precios y promociones. |
+| `reporte` | Consultas y reportes administrativos. |
+| `security` | Seguridad de aplicacion, autenticacion, autorizacion y JWT. |
+| `transferencia` | Registro, aceptacion, rechazo y consulta de transferencias. |
+| `usuario` | Usuarios, roles, permisos y autenticacion funcional. |
+| `venta` | Registro de ventas, detalles, promociones y anulaciones permitidas. |
+
+### Convencion de nombres
+
+La convencion vigente usa nombres en singular para modulos principales como `usuario`, `producto`, `venta` y `gasto`.
+
+Se mantienen nombres plurales cuando representan una agrupacion natural o tecnica, por ejemplo `catalogos`, `pagos` y `evidencias`.
 
 ### Archivos `package-info.java`
 
-Como Git no versiona carpetas vacías, se creó un archivo `package-info.java` dentro de cada paquete.
+Cada paquete tiene un archivo `package-info.java` para que Git pueda versionar la carpeta aunque todavia no existan clases funcionales.
 
-Ejemplo para el paquete de ventas:
+Ejemplo:
 
 ```java
-/**
- * Modulo de ventas del sistema Kontora POS.
- */
 package com.kontora.pos.venta;
 ```
 
-Este tipo de archivo cumple dos funciones:
-
-1. Permite que Git registre la existencia del paquete aunque todavía no tenga clases funcionales.
-2. Documenta de forma mínima el propósito del paquete desde el código fuente.
-
-### Estructura esperada después del Paso 2
-
-Después de crear los paquetes base, la estructura dentro de `backend/src/main/java/com/kontora/pos` debe verse de forma similar a:
+### Estructura esperada
 
 ```text
 com/kontora/pos/
 ├── KontoraPosBackendApplication.java
+├── auditoria/
 ├── caja/
-│   └── package-info.java
+├── catalogos/
 ├── common/
-│   ├── package-info.java
+│   ├── audit/
+│   ├── config/
 │   ├── exception/
-│   │   └── package-info.java
-│   └── response/
-│       └── package-info.java
+│   ├── response/
+│   └── security/
 ├── config/
-│   └── package-info.java
 ├── deposito/
-│   └── package-info.java
+├── evidencias/
 ├── gasto/
-│   └── package-info.java
 ├── inventario/
-│   └── package-info.java
+├── pagos/
 ├── producto/
-│   └── package-info.java
 ├── reporte/
-│   └── package-info.java
 ├── security/
-│   └── package-info.java
 ├── transferencia/
-│   └── package-info.java
 ├── usuario/
-│   └── package-info.java
 └── venta/
-    └── package-info.java
 ```
 
-### Validación realizada en el Paso 2
+### Validacion del paso
 
-Después de crear los paquetes base, se ejecutó:
+El Paso 2 queda completado cuando:
 
-```powershell
-cd C:\Users\corre\Desktop\kontora-pos\backend
-mvn clean test
-```
+1. Todos los paquetes base existen bajo `com.kontora.pos`.
+2. Cada paquete tiene su `package-info.java`.
+3. No se agrego logica de negocio prematura.
+4. La documentacion refleja la estructura real del repositorio.
 
-El resultado obtenido fue exitoso:
+## Archivos principales relacionados
 
 ```text
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-BUILD SUCCESS
-```
-
-### Estado del Paso 2
-
-El Paso 2 de la Fase 2 quedó validado con los siguientes resultados:
-
-- La estructura base de paquetes del backend fue creada dentro de `com.kontora.pos`.
-- Cada paquete fue preparado con su respectivo archivo `package-info.java`.
-- No se agregó lógica de negocio todavía.
-- La compilación y las pruebas Maven finalizaron correctamente.
-- La arquitectura interna queda lista para iniciar posteriormente la creación de clases comunes, configuración base y módulos funcionales.
-
-## Archivos relacionados con los pasos 1 y 2
-
-Los archivos principales creados o modificados durante estos pasos fueron:
-
-```text
-backend/.gitattributes
-backend/.gitignore
-backend/nbactions.xml
 backend/pom.xml
 backend/src/main/java/com/kontora/pos/KontoraPosBackendApplication.java
-backend/src/main/java/com/kontora/pos/caja/package-info.java
-backend/src/main/java/com/kontora/pos/common/package-info.java
-backend/src/main/java/com/kontora/pos/common/exception/package-info.java
-backend/src/main/java/com/kontora/pos/common/response/package-info.java
-backend/src/main/java/com/kontora/pos/config/package-info.java
-backend/src/main/java/com/kontora/pos/deposito/package-info.java
-backend/src/main/java/com/kontora/pos/gasto/package-info.java
-backend/src/main/java/com/kontora/pos/inventario/package-info.java
-backend/src/main/java/com/kontora/pos/producto/package-info.java
-backend/src/main/java/com/kontora/pos/reporte/package-info.java
-backend/src/main/java/com/kontora/pos/security/package-info.java
-backend/src/main/java/com/kontora/pos/transferencia/package-info.java
-backend/src/main/java/com/kontora/pos/usuario/package-info.java
-backend/src/main/java/com/kontora/pos/venta/package-info.java
 backend/src/main/resources/application.properties
 backend/src/test/java/com/kontora/pos/KontoraPosBackendApplicationTests.java
 docs/modules/backend.md
-```
-
-## Estado esperado en Git para cerrar el Paso 2
-
-Antes de cerrar el Paso 2 con commit, el estado esperado debe incluir los archivos `package-info.java` de los paquetes nuevos y la actualización de este documento:
-
-```text
-Changes to be committed:
-    new file:   backend/src/main/java/com/kontora/pos/caja/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/common/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/common/exception/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/common/response/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/config/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/deposito/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/gasto/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/inventario/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/producto/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/reporte/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/security/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/transferencia/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/usuario/package-info.java
-    new file:   backend/src/main/java/com/kontora/pos/venta/package-info.java
-    modified:   docs/modules/backend.md
-```
-
-## Commit sugerido
-
-El commit sugerido para cerrar el Paso 2 es:
-
-```powershell
-git commit -m "chore: crear estructura base de paquetes backend"
 ```
