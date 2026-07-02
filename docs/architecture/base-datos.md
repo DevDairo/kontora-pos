@@ -135,7 +135,7 @@ Desde la raíz del repositorio:
 Move-Item .\kontora_pos_schema.sql .\scripts\database\kontora_pos_schema.sql
 ```
 
-## Estado observado en Git
+## Estado observado durante el paso
 
 Después de mover el archivo, se ejecutó:
 
@@ -164,7 +164,7 @@ Antes de hacer commit de este paso se recomienda:
 
 ## Estado del Paso 5
 
-El Paso 5 queda completado cuando:
+El Paso 5 queda completado porque:
 
 - El archivo `kontora_pos_schema.sql` queda ubicado en `scripts/database/`.
 - Se documenta que el script todavía no es una migración Flyway oficial.
@@ -176,22 +176,3 @@ El Paso 5 queda completado cuando:
 scripts/database/kontora_pos_schema.sql
 docs/architecture/base-datos.md
 ```
-
-## Estado esperado en Git
-
-Antes de cerrar este paso con commit, el estado esperado debe incluir:
-
-```text
-Changes to be committed:
-    new file:   docs/architecture/base-datos.md
-    new file:   scripts/database/kontora_pos_schema.sql
-```
-
-## Commit sugerido
-
-El commit sugerido para cerrar este paso es:
-
-```powershell
-git commit -m "chore: organizar script sql de base de datos"
-```
-
