@@ -79,9 +79,6 @@ Git no versiona carpetas vacías. Por esa razón, se creó un archivo `.gitkeep`
 
 Los archivos `.gitkeep` no contienen lógica ni configuración. Su única función es permitir que la estructura de carpetas quede registrada en el repositorio.
 
-
-```
-
 ## Validación realizada
 
 Después de crear las carpetas, se ejecutó:
@@ -100,8 +97,6 @@ Untracked files:
 
 Este resultado es correcto porque las carpetas contienen archivos `.gitkeep` pendientes de agregar al control de versiones.
 
-
-
 ## Archivos relacionados con este paso
 
 Los archivos creados o modificados para este paso son:
@@ -111,36 +106,14 @@ assets/icons/.gitkeep
 assets/images/.gitkeep
 scripts/cloudflare/.gitkeep
 scripts/database/.gitkeep
-docs/modules/infraestructura.md
-```
-
-## Estado esperado en Git
-
-Antes de cerrar el paso con commit, el estado esperado debe incluir:
-
-```text
-Changes to be committed:
-    new file:   assets/icons/.gitkeep
-    new file:   assets/images/.gitkeep
-    new file:   scripts/cloudflare/.gitkeep
-    new file:   scripts/database/.gitkeep
-    new file:   docs/modules/infraestructura.md
+docs/architecture/infraestructura.md
 ```
 
 ## Estado del Paso 3
 
-El Paso 3 queda completado cuando:
+El Paso 3 queda completado porque:
 
 - La estructura `assets/` y `scripts/` existe en la raíz del repositorio.
 - Las subcarpetas técnicas están versionadas con `.gitkeep`.
-- La documentación queda registrada en `docs/modules/infraestructura.md`.
+- La documentación queda registrada en `docs/architecture/infraestructura.md`.
 - El estado de Git queda limpio después del commit y el push.
-
-## Commit sugerido
-
-El commit sugerido para cerrar este paso es:
-
-```powershell
-git commit -m "chore: preparar carpetas tecnicas de infraestructura"
-```
-
