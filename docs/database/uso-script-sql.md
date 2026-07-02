@@ -1,16 +1,32 @@
-# Uso de scripts SQL y migraciones
+# Uso de Scripts SQL y Migraciones
 
 ## Objetivo
 
-Documentar cómo se organizarán y utilizarán los scripts SQL y las migraciones de base de datos en Kontora POS.
+Servir como guia corta para ubicar los documentos de base de datos relacionados con scripts SQL y migraciones.
 
-La base de datos es un componente crítico del sistema porque conservará información de usuarios, roles, caja diaria, ventas, pagos, inventario, depósito, evidencias y auditoría.
+## Documento principal
 
-## Ubicación de archivos
-
-Los archivos relacionados con base de datos se organizarán en la carpeta `database/`:
+La decision vigente de Fase 2 esta documentada en:
 
 ```text
-database/
-├── schema/
-└── migrations/
+docs/architecture/base-datos.md
+```
+
+Ese documento explica:
+
+- Por que `kontora_pos_schema.sql` esta en `scripts/database/`.
+- Por que todavia no se convirtio en migracion Flyway.
+- Que criterios deben revisarse antes de crear `V1__crear_esquema_inicial.sql`.
+
+## Ubicaciones vigentes
+
+| Ubicacion | Uso |
+|---|---|
+| `scripts/database/kontora_pos_schema.sql` | Script auxiliar de referencia. No se ejecuta automaticamente. |
+| `backend/src/main/resources/db/migration/` | Ubicacion futura de migraciones oficiales Flyway. |
+| `database/schema/` | Carpeta reservada para documentacion o archivos de esquema auxiliares. |
+| `database/migrations/` | Carpeta reservada para referencias o material academico relacionado con migraciones. |
+
+## Regla actual
+
+Durante la Fase 2, el SQL se conserva como referencia en `scripts/database/`. No debe moverse a Flyway hasta que sea revisado y validado.
