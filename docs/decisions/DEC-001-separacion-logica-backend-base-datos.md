@@ -77,9 +77,12 @@ Esta decisión aplica especialmente a los siguientes procesos:
 En fases posteriores, esta decisión deberá reflejarse en la estructura del backend mediante paquetes por dominio, por ejemplo:
 
 ```text
-com.kontora.pos.ventas
+com.kontora.pos.venta
 com.kontora.pos.caja
 com.kontora.pos.inventario
 com.kontora.pos.deposito
-com.kontora.pos.usuarios
+com.kontora.pos.usuario
 com.kontora.pos.auditoria
+```
+
+La estructura base de paquetes se documenta en `docs/modules/backend.md`.
