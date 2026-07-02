@@ -125,13 +125,14 @@ Cloudflare Tunnel permitirá exponer la API del backend de forma segura sin abri
 
 ## Aplicación en Kontora POS
 
-Esta decisión se aplicará desde la Fase 1 de la siguiente manera:
+Esta decisión se aplica de forma progresiva:
 
 - Docker Compose levantará PostgreSQL y pgAdmin.
 - Los archivos `.env.example` documentarán variables sin exponer secretos.
 - Git y GitHub controlarán los cambios.
 - La documentación se mantendrá en Markdown.
-- El backend y frontend se crearán en fases posteriores, respetando la arquitectura definida.
+- El backend Spring Boot se inicializa en la Fase 2.
+- El frontend se creará en una fase posterior, respetando la arquitectura definida.
 
 ## Criterio de validación
 
