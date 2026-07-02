@@ -108,7 +108,7 @@ Antes de cerrar un Pull Request se recomienda:
 
 ## Estado del Paso 7
 
-El Paso 7 queda completado cuando:
+El Paso 7 queda completado porque:
 
 - Se crea `.github/pull_request_template.md`.
 - Se documenta su propósito.
@@ -121,22 +121,3 @@ El Paso 7 queda completado cuando:
 .github/pull_request_template.md
 docs/architecture/pull-request.md
 ```
-
-## Estado esperado en Git
-
-Antes de cerrar este paso con commit, el estado esperado debe incluir:
-
-```text
-Changes to be committed:
-    new file:   .github/pull_request_template.md
-    new file:   docs/architecture/pull-request.md
-```
-
-## Commit sugerido
-
-El commit sugerido para cerrar este paso es:
-
-```powershell
-git commit -m "docs: agregar plantilla de pull request"
-```
-
