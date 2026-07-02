@@ -129,7 +129,7 @@ No se deben guardar tokens, credenciales de túnel ni secretos de Cloudflare en 
 5. Usar variables de entorno reales en el servidor o plataforma de despliegue.
 6. Verificar que `.gitignore` excluya archivos `.env`.
 
-## Validación con Git
+## Validación realizada
 
 Después de crear `backend/.env.example`, se ejecutó:
 
@@ -148,7 +148,7 @@ Este resultado es correcto porque el archivo de ejemplo debe ser agregado al con
 
 ## Estado del Paso 6
 
-El Paso 6 queda completado cuando:
+El Paso 6 queda completado porque:
 
 - `backend/.env.example` queda creado.
 - El archivo solo contiene valores de ejemplo.
@@ -162,22 +162,3 @@ El Paso 6 queda completado cuando:
 backend/.env.example
 docs/architecture/variables-entorno.md
 ```
-
-## Estado esperado en Git
-
-Antes de cerrar este paso con commit, el estado esperado debe incluir:
-
-```text
-Changes to be committed:
-    new file:   backend/.env.example
-    new file:   docs/architecture/variables-entorno.md
-```
-
-## Commit sugerido
-
-El commit sugerido para cerrar este paso es:
-
-```powershell
-git commit -m "chore: documentar variables de entorno backend"
-```
-
