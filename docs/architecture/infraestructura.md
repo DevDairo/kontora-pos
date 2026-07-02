@@ -79,22 +79,7 @@ Git no versiona carpetas vacías. Por esa razón, se creó un archivo `.gitkeep`
 
 Los archivos `.gitkeep` no contienen lógica ni configuración. Su única función es permitir que la estructura de carpetas quede registrada en el repositorio.
 
-## Comandos usados para crear la estructura
 
-Desde la raíz del repositorio:
-
-```powershell
-cd C:\Users\corre\Desktop\kontora-pos
-
-New-Item -ItemType Directory -Force scripts\database
-New-Item -ItemType Directory -Force scripts\cloudflare
-New-Item -ItemType Directory -Force assets\images
-New-Item -ItemType Directory -Force assets\icons
-
-New-Item -ItemType File -Force scripts\database\.gitkeep
-New-Item -ItemType File -Force scripts\cloudflare\.gitkeep
-New-Item -ItemType File -Force assets\images\.gitkeep
-New-Item -ItemType File -Force assets\icons\.gitkeep
 ```
 
 ## Validación realizada
@@ -115,15 +100,7 @@ Untracked files:
 
 Este resultado es correcto porque las carpetas contienen archivos `.gitkeep` pendientes de agregar al control de versiones.
 
-## Recomendaciones antes de cerrar el paso
 
-Antes de hacer commit se debe verificar lo siguiente:
-
-1. Que las carpetas `assets/` y `scripts/` estén en la raíz del repositorio.
-2. Que cada subcarpeta tenga su archivo `.gitkeep`.
-3. Que no se hayan guardado secretos, tokens ni credenciales reales.
-4. Que el script SQL existente no se mueva todavía sin revisar si debe ser migración Flyway o script auxiliar.
-5. Que la documentación de este paso quede incluida en el commit.
 
 ## Archivos relacionados con este paso
 
