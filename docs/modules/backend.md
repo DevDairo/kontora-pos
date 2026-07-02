@@ -170,7 +170,6 @@ com.kontora.pos.caja
 com.kontora.pos.catalogos
 com.kontora.pos.common
 com.kontora.pos.common.audit
-com.kontora.pos.common.config
 com.kontora.pos.common.exception
 com.kontora.pos.common.response
 com.kontora.pos.common.security
@@ -197,7 +196,6 @@ com.kontora.pos.venta
 | `catalogos` | Catalogos base reutilizables del sistema. |
 | `common` | Codigo compartido entre modulos. |
 | `common.audit` | Componentes transversales de auditoria. |
-| `common.config` | Configuraciones compartidas de soporte tecnico. |
 | `common.exception` | Excepciones y manejo centralizado de errores. |
 | `common.response` | Respuestas comunes de la API. |
 | `common.security` | Utilidades transversales de seguridad. |
@@ -240,7 +238,6 @@ com/kontora/pos/
 ├── catalogos/
 ├── common/
 │   ├── audit/
-│   ├── config/
 │   ├── exception/
 │   ├── response/
 │   └── security/
